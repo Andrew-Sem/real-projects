@@ -1,6 +1,8 @@
 import { cn } from "@/lib/utils"
 import { Providers } from "@/modules/providers"
 import "@/styles/globals.css"
+import { GeistSans } from "geist/font/sans"
+import { GeistMono } from "geist/font/mono"
 
 import { Inter as FontSans } from "next/font/google"
 
@@ -21,13 +23,12 @@ export default function RootLayout({
     children: React.ReactNode
 }) {
     return (
-        <html lang="en" suppressHydrationWarning>
-            <body
-                className={cn(
-                    "min-h-screen font-sans antialiased",
-                    fontSans.variable
-                )}
-            >
+        <html
+            lang="en"
+            suppressHydrationWarning
+            className={`${GeistSans.variable} ${GeistMono.variable}`}
+        >
+            <body className={cn("min-h-screen font-sans antialiased")}>
                 <Providers>{children}</Providers>
             </body>
         </html>
