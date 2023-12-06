@@ -1,8 +1,7 @@
 import { cn } from "@/lib/utils"
 import { Providers } from "@/modules/providers"
 import "@/styles/globals.css"
-import { GeistSans } from "geist/font/sans"
-import { GeistMono } from "geist/font/mono"
+import { Inter as FontSans } from "next/font/google"
 
 export const metadata = {
     title: "Create T3 App",
@@ -10,17 +9,18 @@ export const metadata = {
     icons: [{ rel: "icon", url: "/favicon.ico" }],
 }
 
+export const fontSans = FontSans({
+    subsets: ["latin"],
+    variable: "--font-sans",
+})
+
 export default function RootLayout({
     children,
 }: {
     children: React.ReactNode
 }) {
     return (
-        <html
-            lang="en"
-            suppressHydrationWarning
-            className={`${GeistSans.variable} ${GeistMono.variable}`}
-        >
+        <html lang="en" suppressHydrationWarning className={fontSans.variable}>
             <body
                 className={cn(
                     "flex min-h-screen flex-col font-sans antialiased"
