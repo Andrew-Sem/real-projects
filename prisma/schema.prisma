@@ -20,9 +20,10 @@ model Sprint {
   number    Int
   tasks     Task[]
   projectId String
-  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
   from      DateTime
   due       DateTime
+
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
 
   @@index([projectId])
   @@map(name: "sprints")
@@ -32,9 +33,10 @@ model Project {
   id                    String                  @id @default(cuid())
   sprints               Sprint[]
   currentSprintId       String
-  backlog               Backlog                 @relation(fields: [backlogId], references: [id])
   backlogId             String                  @unique
   projectUserPermission ProjectUserPermission[]
+
+  backlog Backlog @relation(fields: [backlogId], references: [id])
 
   @@map(name: "projects")
 }
@@ -57,11 +59,15 @@ model ProjectUserPermission {
 enum Role {
   admin
   user
+  
+  @@map(name: "roles")
 }
 
 enum AccessLevel {
   owner
   member
+
+  @@map(name: "access_levels")
 }
 
 model Backlog {
@@ -78,12 +84,15 @@ model Task {
   due         DateTime?
   status      String
   sprintId    String
-  sprint      Sprint?      @relation(fields: [sprintId], references: [id], onDelete: Cascade)
   backlogId   String
-  backlog     Backlog?     @relation(fields: [backlogId], references: [id], onDelete: Cascade)
   attachments Attachment[]
   comments    Comment[]
   assignee    User[]
+  name        String
+  description String?      @db.Text
+
+  sprint  Sprint?  @relation(fields: [sprintId], references: [id], onDelete: Cascade)
+  backlog Backlog? @relation(fields: [backlogId], references: [id], onDelete: Cascade)
 
   @@index([sprintId])
   @@index([backlogId])
@@ -105,15 +114,19 @@ model Comment {
 }
 
 model Attachment {
-  id     String @id @default(cuid())
-  taskId String
-  link   String
-  width  Float?
-  height Float?
+  id        String   @id @default(cuid())
+  taskId    String
+  link      String
+  authorId  String
+  width     Float?
+  height    Float?
+  createdAt DateTime @default(now())
 
-  task Task @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  author User @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  task   Task @relation(fields: [taskId], references: [id], onDelete: Cascade)
 
   @@index([taskId])
+  @@index([authorId])
   @@map(name: "attachments")
 }
 
@@ -131,7 +144,8 @@ model Account {
   scope             String?
   id_token          String? @db.Text
   session_state     String?
-  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
   @@index([userId])
@@ -143,7 +157,8 @@ model Session {
   sessionToken String   @unique
   userId       String
   expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
   @@map(name: "sessions")
@@ -160,6 +175,7 @@ model User {
   sessions               Session[]
   assigneeTasks          Task[]
   projectUserPermissions ProjectUserPermission[]
+  attachments            Attachment[]
 
   @@map(name: "users")
 }
