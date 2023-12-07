@@ -41,6 +41,14 @@ model Project {
   @@map(name: "projects")
 }
 
+enum TaskStatus {
+  todo
+  inProgress
+  complete
+
+  @@map(name: "task_statuses")
+}
+
 model ProjectUserPermission {
   projectId   String
   userId      String
@@ -59,7 +67,7 @@ model ProjectUserPermission {
 enum Role {
   admin
   user
-  
+
   @@map(name: "roles")
 }
 
@@ -82,7 +90,7 @@ model Task {
   id          String       @id @default(cuid())
   createdAt   DateTime     @default(now())
   due         DateTime?
-  status      String
+  status      TaskStatus   @default(todo)
   sprintId    String
   backlogId   String
   attachments Attachment[]
