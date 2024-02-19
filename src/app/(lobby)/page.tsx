@@ -1,3 +1,3 @@
 export default function LobbyPage() {
-    return <main className="container">losos</main>
+    return <main className="container">Главная страница</main>
 }

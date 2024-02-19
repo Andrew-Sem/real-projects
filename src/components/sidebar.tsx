@@ -8,38 +8,48 @@ import {
 import { Separator } from "./ui/separator"
 import type { ReactElement } from "react"
 import { cn } from "@/lib/utils"
+import Link from "next/link"
 
 export const Sidebar = () => {
     return (
         <div className="flex min-h-full flex-col gap-4 overflow-y-auto border-r lg:w-[280px]">
             <h4 className="px-4 pt-3 text-xl font-medium">Test project</h4>
             <div className="flex flex-col font-medium">
-                <MenuItem
-                    icon={<UsersIcon className="h-4 w-4" />}
-                    title="Участники"
-                />
-                <MenuItem
-                    icon={<Cog6ToothIcon className="h-4 w-4" />}
-                    title="Настройки пространства"
-                />
+                <Link href={"/members"}>
+                    <MenuItem
+                        icon={<UsersIcon className="h-4 w-4" />}
+                        title="Участники"
+                    />
+                </Link>
+                <Link href={"/settings"}>
+                    <MenuItem
+                        icon={<Cog6ToothIcon className="h-4 w-4" />}
+                        title="Настройки пространства"
+                    />
+                </Link>
             </div>
             <div className="px-4">
                 <Separator />
             </div>
             <div className="flex flex-col font-medium">
-                <MenuItem
-                    icon={<Squares2X2Icon className="h-4 w-4" />}
-                    title="Дэшбоард"
-                    active
-                />
-                <MenuItem
-                    icon={<RectangleStackIcon className="h-4 w-4" />}
-                    title="Бэклог"
-                />
-                <MenuItem
-                    icon={<CalendarIcon className="h-4 w-4" />}
-                    title="Календарь"
-                />
+                <Link href={"/dashboard"}>
+                    <MenuItem
+                        icon={<Squares2X2Icon className="h-4 w-4" />}
+                        title="Дэшбоард"
+                    />
+                </Link>
+                <Link href={"/backlog"}>
+                    <MenuItem
+                        icon={<RectangleStackIcon className="h-4 w-4" />}
+                        title="Бэклог"
+                    />
+                </Link>
+                <Link href={"/calendar"}>
+                    <MenuItem
+                        icon={<CalendarIcon className="h-4 w-4" />}
+                        title="Календарь"
+                    />
+                </Link>
             </div>
             <div className="fixed bottom-0 bg-background px-4 py-2 text-sm text-muted-foreground">
                 Andrew-Sem

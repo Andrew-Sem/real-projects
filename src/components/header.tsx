@@ -18,6 +18,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import Link from "next/link"
 
 export const Header = ({ user }: { user: User | undefined }) => {
     return (
@@ -25,7 +26,9 @@ export const Header = ({ user }: { user: User | undefined }) => {
             <div className="flex items-center justify-between px-4">
                 <CubeTransparentIcon className="h-8 w-8" />
                 <div className="flex items-center space-x-6">
-                    <BellIcon className="h-5 w-5 text-muted-foreground" />
+                    <Link href={"/notifications"}>
+                        <BellIcon className="h-5 w-5 text-muted-foreground" />
+                    </Link>
                     {user ? (
                         <DropdownMenu>
                             <DropdownMenuTrigger className="flex items-center space-x-2">
