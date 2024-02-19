@@ -6,7 +6,7 @@ generator client {
 }
 
 datasource db {
-  provider     = "mysql"
+  provider     = "postgresql"
   // NOTE: When using mysql or sqlserver, uncomment the @db.Text annotations in model Account below
   // Further reading:
   // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
@@ -112,6 +112,7 @@ model Comment {
   commentatorId String
   taskId        String
   text          String @db.Text
+  createdAt     DateTime @default(now())
 
   task        Task @relation(fields: [taskId], references: [id], onDelete: Cascade)
   commentator User @relation(fields: [commentatorId], references: [id], onDelete: Cascade)
