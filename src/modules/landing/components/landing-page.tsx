@@ -21,22 +21,29 @@ export default function LandingPage() {
 							организации Ваших it-проектов
 						</h1>
 						<div className="flex gap-x-4 gap-y-2 max-w-4xl flex-wrap">
-							<Button>Создать проект</Button>
-							<Button variant={"outline"}>Присоединиться к проекту</Button>
+							<Button className="grow sm:grow-0">Создать проект</Button>
+							<Button className="grow sm:grow-0" variant={"outline"}>
+								Присоединиться к проекту
+							</Button>
 						</div>
 					</div>
 				</section>
-				<section className="my-8 hidden md:flex flex-col items-center px-16 overflow-hidden">
+				<section className="my-6 hidden md:flex flex-col items-center px-16 overflow-hidden py-2">
 					<div className="relative z-10 p-8">
-						<div className="overflow-hidden border rounded-xl">
+						<div className="overflow-hidden rounded-xl shadow-xl dark:shadow-none dark:border-2">
 							<img
-								className="w-full h-auto"
-								src="img/Dashboard preview.png"
+								className="w-full h-auto dark:hidden"
+								src="img/Dashboard preview light.png"
+								alt="dashboard preview"
+							/>
+							<img
+								className="w-full h-auto hidden dark:block"
+								src="img/Dashboard preview dark.png"
 								alt="dashboard preview"
 							/>
 						</div>
 						<div className="absolute inset-0 filter blur-[1px] rounded-3xl border border-primary/40" />
-						<div className="absolute -z-10 w-full h-auto backdrop-blur-md inset-0" />
+						<div className="absolute -z-10 w-full h-auto backdrop-blur-md inset-0 bg-primary/10 rounded-3xl" />
 						<div className="absolute top-1/2 right-[calc(100%-44px)] -translate-y-1/2 bg-gradient-to-tr from-30% from-red-500 to-blue-900 -z-20 h-3/5 w-full" />
 						<div className="absolute top-1/2 left-[calc(100%-44px)] -translate-y-1/2 bg-gradient-to-tr from-yellow-300 to-90% to-red-700  -z-20 h-3/5 w-full" />
 					</div>
