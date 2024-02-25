@@ -10,10 +10,10 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { MoonIcon, SunIcon } from "lucide-react";
+import { CheckCheck, MoonIcon, SunIcon } from "lucide-react";
 
 export function ModeToggle() {
-	const { setTheme } = useTheme();
+	const { setTheme, theme } = useTheme();
 
 	return (
 		<DropdownMenu>
@@ -26,13 +26,22 @@ export function ModeToggle() {
 			</DropdownMenuTrigger>
 			<DropdownMenuContent align="end">
 				<DropdownMenuItem onClick={() => setTheme("light")}>
-					Светлая
+					{theme === "light" && (
+						<CheckCheck className="w-4 h-4 absolute left-1 " />
+					)}
+					<span className="pl-4">Светлая</span>
 				</DropdownMenuItem>
 				<DropdownMenuItem onClick={() => setTheme("dark")}>
-					Тёмная
+					{theme === "dark" && (
+						<CheckCheck className="w-4 h-4 absolute left-1" />
+					)}
+					<span className="pl-4">Тёмная</span>
 				</DropdownMenuItem>
 				<DropdownMenuItem onClick={() => setTheme("system")}>
-					Системная
+					{theme === "system" && (
+						<CheckCheck className="w-4 h-4 absolute left-1 " />
+					)}
+					<span className="pl-4">Системная</span>
 				</DropdownMenuItem>
 			</DropdownMenuContent>
 		</DropdownMenu>
