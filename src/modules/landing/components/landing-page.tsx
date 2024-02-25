@@ -1,6 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { Logo } from "@/components/ui/logo-with-text";
+import { LogoWithText } from "@/components/ui/logos/logo-with-text";
 import { signIn } from "next-auth/react";
 import { AdvantageCardList } from "./advantage-card-list";
 
@@ -8,7 +8,7 @@ export default function LandingPage() {
 	return (
 		<>
 			<header className="container py-4 flex justify-between">
-				<Logo />
+				<LogoWithText />
 				<Button variant={"secondary"} onClick={() => signIn()}>
 					Войти
 				</Button>

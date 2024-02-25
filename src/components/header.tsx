@@ -4,7 +4,6 @@ import {
 	BellIcon,
 	ChevronDownIcon,
 	Cog6ToothIcon,
-	CubeTransparentIcon,
 } from "@heroicons/react/24/solid";
 import { signOut } from "next-auth/react";
 import { type User } from "next-auth";
@@ -18,12 +17,13 @@ import {
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
+import { Logo } from "@/components/ui/logos/logo";
 
 export const Header = ({ user }: { user: User }) => {
 	return (
 		<header className="sticky top-0 z-50 border-b py-3 bg-background/30 backdrop-blur-sm">
 			<div className="flex items-center justify-between px-4">
-				<CubeTransparentIcon className="h-8 w-8" />
+				<Logo className="w-8 h-8" />
 				<div className="flex items-center space-x-6">
 					<Link href={"/notifications"}>
 						<BellIcon className="h-5 w-5 text-muted-foreground" />
