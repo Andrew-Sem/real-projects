@@ -16,7 +16,7 @@ export default function LandingPage() {
 			<main>
 				<section className="flex flex-col items-center container">
 					<div className="max-w-4xl">
-						<h1 className="text-3xl lg:text-5xl font-bold my-8">
+						<h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold my-8 text-center sm:text-start">
 							Реальные проекты - практическое решение для оптимизации
 							организации Ваших it-проектов
 						</h1>
