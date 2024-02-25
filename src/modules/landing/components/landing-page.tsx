@@ -9,7 +9,7 @@ export default function LandingPage() {
 		<>
 			<header className="container py-4 flex justify-between">
 				<Logo />
-				<Button variant={"outline"} onClick={() => signIn()}>
+				<Button variant={"secondary"} onClick={() => signIn()}>
 					Войти
 				</Button>
 			</header>
