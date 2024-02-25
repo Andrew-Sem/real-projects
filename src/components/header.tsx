@@ -1,71 +1,62 @@
-"use client"
+"use client";
 import {
-    ArrowLeftOnRectangleIcon,
-    BellIcon,
-    ChevronDownIcon,
-    Cog6ToothIcon,
-    CubeTransparentIcon,
-} from "@heroicons/react/24/solid"
-import { Button } from "./ui/button"
-import { signIn, signOut } from "next-auth/react"
-import { type User } from "next-auth"
-import Image from "next/image"
+	ArrowLeftOnRectangleIcon,
+	BellIcon,
+	ChevronDownIcon,
+	Cog6ToothIcon,
+	CubeTransparentIcon,
+} from "@heroicons/react/24/solid";
+import { signOut } from "next-auth/react";
+import { type User } from "next-auth";
+import Image from "next/image";
 import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import Link from "next/link"
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuLabel,
+	DropdownMenuSeparator,
+	DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import Link from "next/link";
 
-export const Header = ({ user }: { user: User | undefined }) => {
-    return (
-        <header className="sticky top-0 z-10 border-b py-3">
-            <div className="flex items-center justify-between px-4">
-                <CubeTransparentIcon className="h-8 w-8" />
-                <div className="flex items-center space-x-6">
-                    <Link href={"/notifications"}>
-                        <BellIcon className="h-5 w-5 text-muted-foreground" />
-                    </Link>
-                    {user ? (
-                        <DropdownMenu>
-                            <DropdownMenuTrigger className="flex items-center space-x-2">
-                                <Image
-                                    src={user.image ?? ""}
-                                    height={32}
-                                    width={32}
-                                    alt="profile pic"
-                                    className="shrink-0 cursor-pointer rounded-full"
-                                />
-                                <ChevronDownIcon className="h-3.5 w-3.5" />
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent>
-                                <DropdownMenuLabel>
-                                    Мой аккаунт
-                                </DropdownMenuLabel>
-                                <DropdownMenuSeparator />
-                                <DropdownMenuItem className="flex items-center space-x-2">
-                                    <Cog6ToothIcon className="h-4 w-4" />
-                                    <span>Настройки</span>
-                                </DropdownMenuItem>
-                                <DropdownMenuItem
-                                    className="flex items-center space-x-2"
-                                    onClick={() => signOut()}
-                                >
-                                    <ArrowLeftOnRectangleIcon className="h-4 w-4" />
-                                    <span>Выйти</span>
-                                </DropdownMenuItem>
-                            </DropdownMenuContent>
-                        </DropdownMenu>
-                    ) : (
-                        <Button size={"sm"} onClick={() => signIn()}>
-                            Войти
-                        </Button>
-                    )}
-                </div>
-            </div>
-        </header>
-    )
-}
+export const Header = ({ user }: { user: User }) => {
+	return (
+		<header className="sticky top-0 z-50 border-b py-3 bg-background/30 backdrop-blur-sm">
+			<div className="flex items-center justify-between px-4">
+				<CubeTransparentIcon className="h-8 w-8" />
+				<div className="flex items-center space-x-6">
+					<Link href={"/notifications"}>
+						<BellIcon className="h-5 w-5 text-muted-foreground" />
+					</Link>
+					<DropdownMenu>
+						<DropdownMenuTrigger className="flex items-center space-x-2">
+							<Image
+								src={user.image ?? ""}
+								height={32}
+								width={32}
+								alt="profile pic"
+								className="shrink-0 cursor-pointer rounded-full"
+							/>
+							<ChevronDownIcon className="h-3.5 w-3.5" />
+						</DropdownMenuTrigger>
+						<DropdownMenuContent>
+							<DropdownMenuLabel>Мой аккаунт</DropdownMenuLabel>
+							<DropdownMenuSeparator />
+							<DropdownMenuItem className="flex items-center space-x-2">
+								<Cog6ToothIcon className="h-4 w-4" />
+								<span>Настройки</span>
+							</DropdownMenuItem>
+							<DropdownMenuItem
+								className="flex items-center space-x-2"
+								onClick={() => signOut()}
+							>
+								<ArrowLeftOnRectangleIcon className="h-4 w-4" />
+								<span>Выйти</span>
+							</DropdownMenuItem>
+						</DropdownMenuContent>
+					</DropdownMenu>
+				</div>
+			</div>
+		</header>
+	);
+};
