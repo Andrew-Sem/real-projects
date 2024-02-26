@@ -1,6 +1,6 @@
 "use client";
-import { Button } from "@/components/ui/button";
-import { LogoWithText } from "@/components/ui/logos/logo-with-text";
+import { Button } from "@/shared/components/ui/button";
+import { LogoWithText } from "@/shared/components/ui/logos/logo-with-text";
 import { signIn } from "next-auth/react";
 import { AdvantageCardList } from "./advantage-card-list";
 

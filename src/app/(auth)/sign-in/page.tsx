@@ -1,4 +1,4 @@
-import { Logo } from "@/components/ui/logos/logo";
+import { Logo } from "@/shared/components/ui/logos/logo";
 import { SignInForm } from "@/modules/sign-in/components/sign-in-form";
 import Link from "next/link";
 
