@@ -1,6 +1,6 @@
-import { Header } from "@/components/header";
+import { Header } from "@/shared/components/header";
 import LandingPage from "@/modules/landing/components/landing-page";
-import { getServerAuthSession } from "@/server/auth";
+import { getServerAuthSession } from "@/shared/server/auth";
 
 export default async function LobbyPage() {
 	const session = await getServerAuthSession();

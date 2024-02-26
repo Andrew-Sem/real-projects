@@ -1,9 +1,9 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { GithubMark } from "@/components/ui/logos/github-mark";
-import { GoogleMark } from "@/components/ui/logos/google-mark";
-import { Spinner } from "@/components/ui/spinner";
+import { Button } from "@/shared/components/ui/button";
+import { GithubMark } from "@/shared/components/ui/logos/github-mark";
+import { GoogleMark } from "@/shared/components/ui/logos/google-mark";
+import { Spinner } from "@/shared/components/ui/spinner";
 import { ArrowRightIcon } from "lucide-react";
 import { signIn } from "next-auth/react";
 import { useSearchParams } from "next/navigation";

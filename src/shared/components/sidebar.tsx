@@ -11,7 +11,7 @@ import type { ReactElement } from "react";
 import Link from "next/link";
 import { ModeToggle } from "./mode-toggle";
 import { usePathname } from "next/navigation";
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/lib/utils";
 
 export const Sidebar = () => {
 	return (

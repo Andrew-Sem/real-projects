@@ -15,9 +15,9 @@ import {
 	DropdownMenuLabel,
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from "@/shared/components/ui/dropdown-menu";
 import Link from "next/link";
-import { Logo } from "@/components/ui/logos/logo";
+import { Logo } from "@/shared/components/ui/logos/logo";
 
 export const Header = ({ user }: { user: User }) => {
 	return (

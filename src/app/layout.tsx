@@ -1,5 +1,5 @@
-import { Toaster } from "@/components/ui/toaster";
-import { cn } from "@/lib/utils";
+import { Toaster } from "@/shared/components/ui/toaster";
+import { cn } from "@/shared/lib/utils";
 import { Providers } from "@/modules/providers";
 import "@/styles/globals.css";
 import { Inter as FontSans } from "next/font/google";

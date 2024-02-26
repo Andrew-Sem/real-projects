@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/lib/utils";
 import { CubeTransparentIcon } from "@heroicons/react/24/solid";
 
 export const Logo = ({ className }: { className?: string }) => {

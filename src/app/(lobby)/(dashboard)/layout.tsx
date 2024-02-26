@@ -1,6 +1,6 @@
-import { Header } from "@/components/header";
-import { Sidebar } from "@/components/sidebar";
-import { getServerAuthSession } from "@/server/auth";
+import { Header } from "@/shared/components/header";
+import { Sidebar } from "@/shared/components/sidebar";
+import { getServerAuthSession } from "@/shared/server/auth";
 import { type PropsWithChildren } from "react";
 import { redirect } from "next/navigation";
 
