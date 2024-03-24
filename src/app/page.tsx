@@ -1,19 +1,25 @@
 import { AdvantageCardList } from "@/components/landing/advantage-card-list";
-import { ModeToggle } from "@/components/mode-toggle";
 import { Button } from "@/components/ui/button";
 import { LogoWithText } from "@/components/ui/logos/logo-with-text";
-import { UserButton } from "@clerk/nextjs";
+import { auth, SignInButton, SignOutButton } from "@clerk/nextjs";
 import Image from "next/image";
 
 export default async function Home() {
+  const { userId } = auth();
   return (
     <>
       <header className="container flex justify-between py-4">
         <LogoWithText />
-        <div className="flex items-center gap-x-4">
-          <ModeToggle />
-          <UserButton />
-        </div>
+
+        {userId ? (
+          <SignOutButton>
+            <Button variant={"secondary"}>Выйти</Button>
+          </SignOutButton>
+        ) : (
+          <SignInButton>
+            <Button variant={"secondary"}>Войти</Button>
+          </SignInButton>
+        )}
       </header>
       <main>
         <section className="container flex flex-col items-center">
