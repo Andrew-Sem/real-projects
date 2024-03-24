@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { ClerkProvider } from "@clerk/nextjs";
 import { cn } from "@/lib/utils";
 import { dark } from "@clerk/themes";
+import { ruRU } from "@clerk/localizations";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -27,6 +28,7 @@ export default function RootLayout({
       appearance={{
         baseTheme: dark,
       }}
+      localization={ruRU}
     >
       <html lang="en">
         <body

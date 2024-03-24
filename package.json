@@ -13,6 +13,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@clerk/localizations": "^1.26.16",
     "@clerk/nextjs": "^4.29.9",
     "@clerk/themes": "^1.7.10",
     "@heroicons/react": "^2.1.3",
