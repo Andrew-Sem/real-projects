@@ -1,12 +1,11 @@
 import "@/styles/globals.css";
-
-import { Inter } from "next/font/google";
-
+import { Inter as FontSans } from "next/font/google";
 import { TRPCReactProvider } from "@/trpc/react";
-
+import { ThemeProvider } from "@/components/theme-provider";
 import { ClerkProvider } from "@clerk/nextjs";
+import { cn } from "@/lib/utils";
 
-const inter = Inter({
+const fontSans = FontSans({
   subsets: ["latin"],
   variable: "--font-sans",
 });
@@ -25,8 +24,20 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className={`font-sans ${inter.variable}`}>
-          <TRPCReactProvider>{children}</TRPCReactProvider>
+        <body
+          className={cn(
+            "bg-background min-h-screen font-sans antialiased",
+            fontSans.variable,
+          )}
+        >
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <TRPCReactProvider>{children}</TRPCReactProvider>
+          </ThemeProvider>
         </body>
       </html>
     </ClerkProvider>
