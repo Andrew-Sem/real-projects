@@ -1,0 +1,199 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider     = "postgresql"
+  // NOTE: When using mysql or sqlserver, uncomment the @db.Text annotations in model Account below
+  // Further reading:
+  // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
+  // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+model Sprint {
+  id        String   @id @default(cuid())
+  number    Int
+  tasks     Task[]
+  projectId String
+  from      DateTime
+  due       DateTime
+
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@index([projectId])
+  @@map(name: "sprints")
+}
+
+model Project {
+  id                    String                  @id @default(cuid())
+  sprints               Sprint[]
+  currentSprintId       String
+  backlogId             String                  @unique
+  projectUserPermission ProjectUserPermission[]
+
+  backlog Backlog @relation(fields: [backlogId], references: [id])
+
+  @@map(name: "projects")
+}
+
+enum TaskStatus {
+  todo
+  inProgress
+  complete
+
+  @@map(name: "task_statuses")
+}
+
+model ProjectUserPermission {
+  projectId   String
+  userId      String
+  role        Role        @default(user)
+  accessLevel AccessLevel @default(member)
+
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([projectId, userId])
+  @@index([projectId])
+  @@index([userId])
+  @@map(name: "project_user_permissions")
+}
+
+enum Role {
+  admin
+  user
+
+  @@map(name: "roles")
+}
+
+enum AccessLevel {
+  owner
+  member
+
+  @@map(name: "access_levels")
+}
+
+model Backlog {
+  id      String   @id @default(cuid())
+  project Project?
+  tasks   Task[]
+
+  @@map(name: "backlogs")
+}
+
+model Task {
+  id          String       @id @default(cuid())
+  createdAt   DateTime     @default(now())
+  due         DateTime?
+  status      TaskStatus   @default(todo)
+  sprintId    String
+  backlogId   String
+  attachments Attachment[]
+  comments    Comment[]
+  assignee    User[]
+  name        String
+  description String?      @db.Text
+
+  sprint  Sprint?  @relation(fields: [sprintId], references: [id], onDelete: Cascade)
+  backlog Backlog? @relation(fields: [backlogId], references: [id], onDelete: Cascade)
+
+  @@index([sprintId])
+  @@index([backlogId])
+  @@map(name: "tasks")
+}
+
+model Comment {
+  id            String @id @default(cuid())
+  commentatorId String
+  taskId        String
+  text          String @db.Text
+  createdAt     DateTime @default(now())
+
+  task        Task @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  commentator User @relation(fields: [commentatorId], references: [id], onDelete: Cascade)
+
+  @@index([taskId])
+  @@index([commentatorId])
+  @@map(name: "comments")
+}
+
+model Attachment {
+  id        String   @id @default(cuid())
+  taskId    String
+  link      String
+  authorId  String
+  width     Float?
+  height    Float?
+  createdAt DateTime @default(now())
+
+  author User @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  task   Task @relation(fields: [taskId], references: [id], onDelete: Cascade)
+
+  @@index([taskId])
+  @@index([authorId])
+  @@map(name: "attachments")
+}
+
+// Necessary for Next auth
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+  @@map(name: "accounts")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map(name: "sessions")
+}
+
+model User {
+  id                     String                  @id @default(cuid())
+  name                   String?
+  email                  String?                 @unique
+  emailVerified          DateTime?
+  image                  String?
+  comments               Comment[]
+  accounts               Account[]
+  sessions               Session[]
+  assigneeTasks          Task[]
+  projectUserPermissions ProjectUserPermission[]
+  attachments            Attachment[]
+
+  @@map(name: "users")
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@map(name: "verification_tokens")
+}
