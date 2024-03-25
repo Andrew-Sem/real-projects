@@ -45,9 +45,14 @@ export const Sidebar = ({
               <Link
                 key={latestProject.id}
                 href={`/projects/${latestProject.id}/dashboard`}
-                className="cursor-pointer"
               >
-                <DropdownMenuItem>{latestProject.name}</DropdownMenuItem>
+                <DropdownMenuItem
+                  className={
+                    latestProject.id === project.id ? "bg-accent/80" : ""
+                  }
+                >
+                  {latestProject.name}
+                </DropdownMenuItem>
               </Link>
             ))}
             <DropdownMenuSeparator />
