@@ -18,7 +18,7 @@ import Link from "next/link";
 import { Logo } from "@/components/ui/logos/logo";
 import { SignOutButton } from "@clerk/nextjs";
 
-export const Header = ({ userImage }: { userImage: string | null }) => {
+export const Header = ({ userImage }: { userImage?: string }) => {
   return (
     <header className="sticky top-0 z-50 border-b bg-background/30 py-3 backdrop-blur-sm">
       <div className="flex items-center justify-between px-4">
