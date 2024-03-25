@@ -16,12 +16,25 @@ export const projectRouter = createTRPCRouter({
           message: "Проект с таким именем уже существует",
         });
       const backlog = await ctx.db.backlog.create({ data: {} });
+      const dbUser = await ctx.db.user.findFirst({
+        where: {
+          id: ctx.user.id,
+        },
+      });
+      if (!dbUser)
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Не удалось найти пользователя",
+        });
       return await ctx.db.project.create({
         data: {
           name: input.projectName,
           ownerId: ctx.user.id,
           backlog: { connect: { id: backlog.id } },
-          users: [ctx.user.id],
+          users: { connect: [dbUser] },
+        },
+        include: {
+          users: true,
         },
       });
     }),
@@ -34,6 +47,21 @@ export const projectRouter = createTRPCRouter({
           ownerId: ctx.user.id,
           id: input.id,
         },
+        include: {
+          users: true,
+        },
       });
     }),
+  getAllByUser: protectedProcedure.query(async ({ ctx }) => {
+    const dbUser = await ctx.db.user.findFirst({
+      where: { id: ctx.user.id },
+      include: { projects: true },
+    });
+    if (!dbUser)
+      throw new TRPCError({
+        code: "NOT_FOUND",
+        message: "Не удалось найти пользователя в базе",
+      });
+    return dbUser.projects;
+  }),
 });

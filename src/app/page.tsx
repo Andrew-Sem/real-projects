@@ -1,4 +1,5 @@
 import { AdvantageCardList } from "@/components/landing/advantage-card-list";
+import { ModeToggle } from "@/components/mode-toggle";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { LogoWithText } from "@/components/ui/logos/logo-with-text";
 import { cn } from "@/lib/utils";
@@ -22,6 +23,7 @@ export default async function Home() {
             <Button variant={"secondary"}>Войти</Button>
           </SignInButton>
         )}
+        <ModeToggle />
       </header>
       <main>
         <section className="container flex flex-col items-center">
