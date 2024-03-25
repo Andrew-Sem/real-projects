@@ -26,7 +26,7 @@ export const CreateProjectForm = () => {
   const router = useRouter();
   const { mutate: createProject, isPending } = api.project.create.useMutation({
     onSuccess: (project) => {
-      router.push(`/projects/${project.id}`);
+      router.push(`/projects/${project.id}/dashboard`);
     },
     onError: (error) => {
       toast({

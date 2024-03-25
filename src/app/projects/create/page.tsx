@@ -1,17 +1,23 @@
 import { CreateProjectForm } from "@/components/create-project-form";
+import { Header } from "@/components/header";
 import { api } from "@/trpc/server";
+import { currentUser } from "@clerk/nextjs";
 
 export default async function CreateProjectPage() {
-  const user = await api.user.getCurrent();
-  if (!user) await api.user.create();
+  const dbUser = await api.user.getCurrent();
+  if (!dbUser) await api.user.create();
+  const user = await currentUser();
   return (
-    <div className="container flex justify-center">
-      <div className="w-full max-w-xl py-10">
-        <h1 className="mb-10 text-3xl font-semibold">
-          Создание нового проекта
-        </h1>
-        <CreateProjectForm />
+    <>
+      <Header userImage={user?.imageUrl} />
+      <div className="container flex justify-center">
+        <div className="w-full max-w-xl py-10">
+          <h1 className="mb-10 text-3xl font-semibold">
+            Создание нового проекта
+          </h1>
+          <CreateProjectForm />
+        </div>
       </div>
-    </div>
+    </>
   );
 }

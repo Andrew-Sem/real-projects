@@ -13,7 +13,15 @@ export default async function ProjectsPage() {
     <>
       <Header userImage={user?.imageUrl} />
       <div className="container">
-        <h1 className="py-10 text-2xl font-semibold">Ваши проекты</h1>
+        <div className="flex items-center justify-between">
+          <h1 className="py-10 text-2xl font-semibold">Ваши проекты</h1>
+          <Link
+            href={"/projects/create"}
+            className={cn("grow sm:grow-0", buttonVariants())}
+          >
+            Создать проект
+          </Link>
+        </div>
         {projects.length ? (
           <div className="grid grid-cols-3 gap-4">
             {projects.map((project) => (
