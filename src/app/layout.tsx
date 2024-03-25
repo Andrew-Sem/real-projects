@@ -4,7 +4,6 @@ import { TRPCReactProvider } from "@/trpc/react";
 import { ThemeProvider } from "@/components/theme-provider";
 import { ClerkProvider } from "@clerk/nextjs";
 import { cn } from "@/lib/utils";
-import { dark } from "@clerk/themes";
 import { ruRU } from "@clerk/localizations";
 
 const fontSans = FontSans({
@@ -24,16 +23,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <ClerkProvider
-      appearance={{
-        baseTheme: dark,
-      }}
-      localization={ruRU}
-    >
+    <ClerkProvider localization={ruRU}>
       <html lang="en">
         <body
           className={cn(
-            "bg-background min-h-screen font-sans antialiased",
+            "min-h-screen bg-background font-sans antialiased",
             fontSans.variable,
           )}
         >
