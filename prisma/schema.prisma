@@ -31,9 +31,12 @@ model Sprint {
 
 model Project {
   id                    String                  @id @default(cuid())
+  name                  String
+  users                 String[]                
   sprints               Sprint[]
-  currentSprintId       String
+  currentSprintId       String                  @default("1")
   backlogId             String                  @unique
+  ownerId               String                  
   projectUserPermission ProjectUserPermission[]
 
   backlog Backlog @relation(fields: [backlogId], references: [id])
