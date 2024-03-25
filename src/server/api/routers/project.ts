@@ -64,4 +64,16 @@ export const projectRouter = createTRPCRouter({
       });
     return dbUser.projects;
   }),
+  getLatestProjects: protectedProcedure.query(async ({ ctx }) => {
+    const dbUser = await ctx.db.user.findFirst({
+      where: { id: ctx.user.id },
+      include: { projects: { orderBy: { updatedAt: "desc" }, take: 5 } },
+    });
+    if (!dbUser)
+      throw new TRPCError({
+        code: "NOT_FOUND",
+        message: "Не удалось найти пользователя в базе",
+      });
+    return dbUser.projects;
+  }),
 });
