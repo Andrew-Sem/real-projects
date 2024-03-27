@@ -30,21 +30,22 @@ model Sprint {
 }
 
 model Project {
-  id                    String                  @id @default(cuid())
-  name                  String
-  sprints               Sprint[]
-  currentSprintId       String                  @default("1")
-  backlogId             String                  @unique
-  ownerId               String                  
+  id                     String                  @id @default(cuid())
+  name                   String
+  sprints                Sprint[]
+  currentSprintId        String                  @default("1")
+  backlogId              String                  @unique
+  ownerId                String
   projectUserPermissions ProjectUserPermission[]
-  users                 User[]        
- createdAt   DateTime     @default(now())    
- updatedAt              DateTime            @updatedAt @default(now())            
+  users                  User[]
+  createdAt              DateTime                @default(now())
+  updatedAt              DateTime                @default(now()) @updatedAt
 
-  backlog               Backlog @relation(fields: [backlogId], references: [id])
+  backlog Backlog @relation(fields: [backlogId], references: [id])
 
   @@map(name: "projects")
 }
+
 enum TaskStatus {
   todo
   inProgress
@@ -93,29 +94,33 @@ model Backlog {
 model Task {
   id          String       @id @default(cuid())
   createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @default(now()) @updatedAt
   due         DateTime?
   status      TaskStatus   @default(todo)
-  sprintId    String
-  backlogId   String
+  sprintId    String?
+  backlogId   String?
   attachments Attachment[]
   comments    Comment[]
-  assignee    User[]
+  assignee    User[]       @relation("Assignee")
   name        String
   description String?      @db.Text
+  userId      String
 
-  sprint  Sprint?  @relation(fields: [sprintId], references: [id], onDelete: Cascade)
-  backlog Backlog? @relation(fields: [backlogId], references: [id], onDelete: Cascade)
+  createdBy User     @relation("Creator", fields: [userId], references: [id])
+  sprint    Sprint?  @relation(fields: [sprintId], references: [id], onDelete: Cascade)
+  backlog   Backlog? @relation(fields: [backlogId], references: [id], onDelete: Cascade)
 
+  @@index([userId])
   @@index([sprintId])
   @@index([backlogId])
   @@map(name: "tasks")
 }
 
 model Comment {
-  id            String @id @default(cuid())
+  id            String   @id @default(cuid())
   commentatorId String
   taskId        String
-  text          String @db.Text
+  text          String   @db.Text
   createdAt     DateTime @default(now())
 
   task        Task @relation(fields: [taskId], references: [id], onDelete: Cascade)
@@ -146,10 +151,11 @@ model Attachment {
 model User {
   id                     String                  @id
   comments               Comment[]
-  assigneeTasks          Task[]
+  assigneeTasks          Task[]                  @relation("Assignee")
   projectUserPermissions ProjectUserPermission[]
   attachments            Attachment[]
-  projects               Project[]              
-  
+  projects               Project[]
+  createdTasks           Task[]                  @relation("Creator")
+
   @@map(name: "users")
 }
