@@ -38,7 +38,7 @@ export const Header = ({ userImage }: { userImage?: string }) => {
               />
               <ChevronDownIcon className="h-3.5 w-3.5" />
             </DropdownMenuTrigger>
-            <DropdownMenuContent>
+            <DropdownMenuContent slot="123">
               <DropdownMenuLabel>Мой аккаунт</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem className="flex items-center space-x-2">

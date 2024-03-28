@@ -30,6 +30,31 @@ export const taskRouter = createTRPCRouter({
         where: {
           backlogId: input.backlogId,
         },
+        orderBy: {
+          createdAt: "desc",
+        },
       });
     }),
+  // update: protectedProcedure
+  //   .input(
+  //     z
+  //       .object({
+  //         name: z.string(),
+  //         description: z.string(),
+  //         backlogId: z.string(),
+  //         due: z.date(),
+  //         status: z.enum(["К выполнению", "В процессе", "Готово"]),
+  //         sprintId: z.string(),
+  //       })
+  //       .partial()
+  //       .extend({ id: z.string() }),
+  //   )
+  //   .mutation(async ({ ctx, input }) => {
+  //     await ctx.db.task.update({
+  //       where: {
+  //         id: input.id,
+  //       },
+  //       data: input,
+  //     });
+  //   }),
 });

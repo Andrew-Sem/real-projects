@@ -51,7 +51,11 @@ export const projectRouter = createTRPCRouter({
           users: true,
           backlog: {
             include: {
-              tasks: true,
+              tasks: {
+                orderBy: {
+                  createdAt: "desc",
+                },
+              },
             },
           },
         },
