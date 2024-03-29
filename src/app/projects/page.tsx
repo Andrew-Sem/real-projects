@@ -12,7 +12,7 @@ export default async function ProjectsPage() {
   return (
     <>
       <Header userImage={user?.imageUrl} />
-      <div className="container">
+      <main className="container">
         <div className="flex items-center justify-between">
           <h1 className="py-10 text-2xl font-semibold">Ваши проекты</h1>
           <Link
@@ -39,7 +39,7 @@ export default async function ProjectsPage() {
             </Link>
           </div>
         )}
-      </div>
+      </main>
     </>
   );
 }

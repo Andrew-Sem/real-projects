@@ -8,7 +8,8 @@ export const taskRouter = createTRPCRouter({
         sprintId: z.string().optional(),
         backlogId: z.string().optional(),
         name: z.string(),
-        description: z.string(),
+        description: z.string().optional(),
+        due: z.date().optional(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -19,6 +20,7 @@ export const taskRouter = createTRPCRouter({
           userId: ctx.user.id,
           sprintId: input.sprintId,
           backlogId: input.backlogId,
+          due: input.due,
         },
       });
       return task;
