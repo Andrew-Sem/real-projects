@@ -8,7 +8,7 @@ export const projectRouter = createTRPCRouter({
     .input(z.object({ projectName: z.string() }))
     .mutation(async ({ input, ctx }) => {
       const project = await ctx.db.project.findFirst({
-        where: { name: input.projectName },
+        where: { name: input.projectName, ownerId: ctx.user.id },
       });
       if (project)
         throw new TRPCError({
