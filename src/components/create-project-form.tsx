@@ -17,15 +17,19 @@ import { api } from "@/trpc/react";
 import { useRouter } from "next/navigation";
 import { Spinner } from "@/components/ui/spinner";
 import { useToast } from "./ui/use-toast";
+import { useState } from "react";
 const formSchema = z.object({
   projectName: z.string().min(2).max(50),
 });
 
 export const CreateProjectForm = () => {
+  const [isRedirecting, setIsRedirecting] = useState(false);
   const { toast } = useToast();
   const router = useRouter();
+
   const { mutate: createProject, isPending } = api.project.create.useMutation({
     onSuccess: (project) => {
+      setIsRedirecting(true);
       router.push(`/projects/${project.id}/dashboard`);
     },
     onError: (error) => {
@@ -63,12 +67,12 @@ export const CreateProjectForm = () => {
           )}
         />
         <Button
-          disabled={isPending}
+          disabled={isPending || isRedirecting}
           type="submit"
           className="flex items-center gap-x-2"
         >
           <span>Создать проект</span>
-          {isPending && <Spinner className="h-4 w-4" />}
+          {(isPending || isRedirecting) && <Spinner className="h-4 w-4" />}
         </Button>
       </form>
     </Form>
