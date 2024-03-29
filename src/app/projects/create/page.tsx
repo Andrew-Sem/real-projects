@@ -1,11 +1,8 @@
 import { CreateProjectForm } from "@/components/create-project-form";
 import { Header } from "@/components/header";
-import { api } from "@/trpc/server";
 import { currentUser } from "@clerk/nextjs";
 
 export default async function CreateProjectPage() {
-  const dbUser = await api.user.getCurrent();
-  if (!dbUser) await api.user.create();
   const user = await currentUser();
   return (
     <>

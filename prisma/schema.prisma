@@ -41,7 +41,7 @@ model Project {
   createdAt              DateTime                @default(now())
   updatedAt              DateTime                @default(now()) @updatedAt
 
-  backlog Backlog @relation(fields: [backlogId], references: [id])
+  backlog Backlog @relation(fields: [backlogId], references: [id], onDelete: Cascade)
 
   @@map(name: "projects")
 }
