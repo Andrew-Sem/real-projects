@@ -25,11 +25,17 @@ import { Textarea } from "./ui/textarea";
 import { api } from "@/trpc/react";
 import { useToast } from "./ui/use-toast";
 import { Spinner } from "./ui/spinner";
+import { cn } from "@/lib/utils";
+import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+import { format } from "date-fns";
+import { CalendarIcon } from "lucide-react";
+import { Calendar } from "./ui/calendar";
 
 const formSchema = z.object({
   name: z.string().min(2).max(50),
   description: z.string().max(200),
   sprintId: z.string().optional(),
+  due: z.date().optional(),
 });
 
 export const CreateTaskForm = ({
@@ -97,6 +103,45 @@ export const CreateTaskForm = ({
                   {...field}
                 />
               </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="due"
+          render={({ field }) => (
+            <FormItem className="flex flex-col">
+              <FormLabel>Срок</FormLabel>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <FormControl>
+                    <Button
+                      variant={"outline"}
+                      className={cn(
+                        "w-[240px] pl-3 text-left font-normal",
+                        !field.value && "text-muted-foreground",
+                      )}
+                    >
+                      {field.value ? (
+                        format(field.value, "PPP")
+                      ) : (
+                        <span>Выберите дату</span>
+                      )}
+                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                    </Button>
+                  </FormControl>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={field.value}
+                    onSelect={field.onChange}
+                    disabled={(date) => date < new Date("2000-01-01")}
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
               <FormMessage />
             </FormItem>
           )}
