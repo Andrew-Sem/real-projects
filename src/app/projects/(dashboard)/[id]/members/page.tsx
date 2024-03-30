@@ -1,5 +1,6 @@
 import { CopyInviteLink } from "@/components/copy-invite-link";
 import { api } from "@/trpc/server";
+import Image from "next/image";
 
 export default async function MembersPage({
   params,
@@ -14,6 +15,26 @@ export default async function MembersPage({
       <div className="mb-4">
         <h2 className="mb-4 text-2xl font-semibold">Ссылка приглашение</h2>
         <CopyInviteLink inviteLinkId={project.inviteLinkId} />
+        <h1 className="py-4 text-2xl font-semibold">Участники</h1>
+        <div>
+          {project.members.map((member) => (
+            <div key={member.id} className="flex items-center gap-x-2 py-2">
+              <Image
+                src={member.image}
+                alt={`${member.firstName} image`}
+                height={40}
+                width={40}
+                className="rounded-full"
+              />
+              <div>
+                <div>{member.firstName}</div>
+                <div className="text-sm text-muted-foreground">
+                  {member.email}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

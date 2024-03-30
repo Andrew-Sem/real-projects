@@ -32,8 +32,8 @@ model Sprint {
 model Project {
   id                     String                  @id @default(cuid())
   name                   String
-  inviteLinkId           String                 @unique
-  sprints                Sprint[]                
+  inviteLinkId           String                  @unique
+  sprints                Sprint[]
   currentSprintId        String                  @default("1")
   backlogId              String                  @unique
   ownerId                String
@@ -151,6 +151,9 @@ model Attachment {
 
 model User {
   id                     String                  @id
+  email                  String?
+  firstName              String?
+  image                  String
   comments               Comment[]
   assigneeTasks          Task[]                  @relation("Assignee")
   projectUserPermissions ProjectUserPermission[]

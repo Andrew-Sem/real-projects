@@ -51,14 +51,19 @@ export async function POST(req: Request) {
   }
 
   // Get the ID and type
-  const { id } = evt.data;
   const eventType = evt.type;
+  const { id } = evt.data;
 
-  if (!id) return new Response("unable to get id", { status: 400 });
+  if (!id) return new Response("unable to get user id", { status: 400 });
 
   if (eventType === "user.created")
     await db.user.create({
-      data: { id },
+      data: {
+        id: evt.data.id,
+        image: evt.data.image_url,
+        email: evt.data.email_addresses[0]?.email_address,
+        firstName: evt.data.first_name,
+      },
     });
 
   return new Response("", { status: 200 });
