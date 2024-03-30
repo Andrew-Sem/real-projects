@@ -1,5 +1,4 @@
 import { AdvantageCardList } from "@/components/landing/advantage-card-list";
-import { ModeToggle } from "@/components/mode-toggle";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { LogoWithText } from "@/components/ui/logos/logo-with-text";
 import { cn } from "@/lib/utils";

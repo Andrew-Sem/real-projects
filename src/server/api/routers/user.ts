@@ -8,12 +8,4 @@ export const userRouter = createTRPCRouter({
       },
     });
   }),
-
-  create: protectedProcedure.query(async ({ ctx }) => {
-    return ctx.db.user.create({
-      data: {
-        id: ctx.user.id,
-      },
-    });
-  }),
 });
