@@ -1,5 +1,6 @@
 import { CopyInviteLink } from "@/components/copy-invite-link";
 import { api } from "@/trpc/server";
+import { StarIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 
 export default async function MembersPage({
@@ -27,7 +28,12 @@ export default async function MembersPage({
                 className="rounded-full"
               />
               <div>
-                <div>{member.firstName}</div>
+                <div className="flex gap-x-1">
+                  <span>{member.firstName}</span>
+                  {project.ownerId === member.id && (
+                    <StarIcon className="h-3 w-3" />
+                  )}
+                </div>
                 <div className="text-sm text-muted-foreground">
                   {member.email}
                 </div>
