@@ -2,6 +2,7 @@ import { z } from "zod";
 
 import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
 import { TRPCError } from "@trpc/server";
+import { generateRandomId } from "@/utils/generateRandomId";
 
 export const projectRouter = createTRPCRouter({
   create: protectedProcedure
@@ -31,10 +32,11 @@ export const projectRouter = createTRPCRouter({
           name: input.projectName,
           ownerId: ctx.user.id,
           backlog: { connect: { id: backlog.id } },
-          users: { connect: [dbUser] },
+          members: { connect: [dbUser] },
+          inviteLinkId: generateRandomId(20),
         },
         include: {
-          users: true,
+          members: true,
         },
       });
     }),
@@ -48,7 +50,7 @@ export const projectRouter = createTRPCRouter({
           id: input.id,
         },
         include: {
-          users: true,
+          members: true,
           backlog: {
             include: {
               tasks: {
@@ -85,4 +87,22 @@ export const projectRouter = createTRPCRouter({
       });
     return dbUser.projects;
   }),
+  getMembers: protectedProcedure
+    .input(z.object({ id: z.string() }))
+    .query(async ({ ctx, input }) => {
+      const project = await ctx.db.project.findFirst({
+        where: {
+          id: input.id,
+        },
+        include: {
+          members: true,
+        },
+      });
+      if (!project)
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Не удалось найти проект",
+        });
+      return project.members;
+    }),
 });

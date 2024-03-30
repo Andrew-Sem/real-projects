@@ -32,12 +32,13 @@ model Sprint {
 model Project {
   id                     String                  @id @default(cuid())
   name                   String
+  inviteLinkId           String
   sprints                Sprint[]
   currentSprintId        String                  @default("1")
   backlogId              String                  @unique
   ownerId                String
   projectUserPermissions ProjectUserPermission[]
-  users                  User[]
+  members                User[]
   createdAt              DateTime                @default(now())
   updatedAt              DateTime                @default(now()) @updatedAt
 

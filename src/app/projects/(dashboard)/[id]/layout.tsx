@@ -15,7 +15,7 @@ export default async function DashboardLayout({
   const user = await currentUser();
   const project = await api.project.getById({ id: params.id });
   if (!user) return redirect("/sign-in");
-  if (!project?.users.find((projectUser) => projectUser.id === user?.id))
+  if (!project?.members.find((member) => member.id === user?.id))
     return <div>У вас нет доступа к этому проекту</div>;
   const latestProjects = await api.project.getLatestProjects();
   return (
