@@ -23,7 +23,6 @@ export default async function Home() {
             <Button variant={"secondary"}>Войти</Button>
           </SignInButton>
         )}
-        <ModeToggle />
       </header>
       <main>
         <section className="container flex flex-col items-center">
