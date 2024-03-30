@@ -1,7 +1,7 @@
 import { CopyInviteLink } from "@/components/copy-invite-link";
+import { membersColumns } from "@/components/members/columns";
+import { MembersDataTable } from "@/components/members/data-table";
 import { api } from "@/trpc/server";
-import { StarIcon } from "@heroicons/react/24/solid";
-import Image from "next/image";
 
 export default async function MembersPage({
   params,
@@ -12,35 +12,21 @@ export default async function MembersPage({
   if (!project) return <div>Не удалось найти проект</div>;
 
   return (
-    <div>
-      <div className="mb-4">
-        <h2 className="mb-4 text-2xl font-semibold">Ссылка приглашение</h2>
-        <CopyInviteLink inviteLinkId={project.inviteLinkId} />
-        <h1 className="py-4 text-2xl font-semibold">Участники</h1>
+    <div className="flex flex-col gap-y-8">
+      <div className="flex flex-col gap-y-4">
+        <h2 className="text-2xl font-semibold">Ссылка приглашение</h2>
         <div>
-          {project.members.map((member) => (
-            <div key={member.id} className="flex items-center gap-x-2 py-2">
-              <Image
-                src={member.image}
-                alt={`${member.firstName} image`}
-                height={40}
-                width={40}
-                className="rounded-full"
-              />
-              <div>
-                <div className="flex gap-x-1">
-                  <span>{member.firstName}</span>
-                  {project.ownerId === member.id && (
-                    <StarIcon className="h-3 w-3" />
-                  )}
-                </div>
-                <div className="text-sm text-muted-foreground">
-                  {member.email}
-                </div>
-              </div>
-            </div>
-          ))}
+          <CopyInviteLink inviteLinkId={project.inviteLinkId} />
         </div>
+      </div>
+      <div className="rounded-xl border p-4">
+        <div className="mb-4">
+          <h1 className="text-2xl font-semibold">Участники</h1>
+          <p className="text-sm text-muted-foreground">
+            Управляйте ролями здесь
+          </p>
+        </div>
+        <MembersDataTable data={project.members} columns={membersColumns} />
       </div>
     </div>
   );
