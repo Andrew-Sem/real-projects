@@ -32,8 +32,8 @@ model Sprint {
 model Project {
   id                     String                  @id @default(cuid())
   name                   String
-  inviteLinkId           String
-  sprints                Sprint[]
+  inviteLinkId           String                 @unique
+  sprints                Sprint[]                
   currentSprintId        String                  @default("1")
   backlogId              String                  @unique
   ownerId                String

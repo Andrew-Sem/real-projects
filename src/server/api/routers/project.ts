@@ -46,7 +46,6 @@ export const projectRouter = createTRPCRouter({
     .query(async ({ input, ctx }) => {
       return await ctx.db.project.findFirst({
         where: {
-          ownerId: ctx.user.id,
           id: input.id,
         },
         include: {
@@ -104,5 +103,31 @@ export const projectRouter = createTRPCRouter({
           message: "Не удалось найти проект",
         });
       return project.members;
+    }),
+  getByInviteLinkId: protectedProcedure
+    .input(z.object({ inviteLinkId: z.string() }))
+    .query(async ({ ctx, input }) => {
+      return await ctx.db.project.findFirst({
+        where: { inviteLinkId: input.inviteLinkId },
+        include: {
+          members: true,
+        },
+      });
+    }),
+  acceptInvite: protectedProcedure
+    .input(z.object({ id: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      return await ctx.db.project.update({
+        where: {
+          id: input.id,
+        },
+        data: {
+          members: {
+            connect: {
+              id: ctx.user.id,
+            },
+          },
+        },
+      });
     }),
 });
