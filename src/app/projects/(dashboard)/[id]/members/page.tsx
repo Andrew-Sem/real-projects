@@ -19,13 +19,11 @@ export default async function MembersPage({
           <CopyInviteLink inviteLinkId={project.inviteLinkId} />
         </div>
       </div>
-      <div className="rounded-xl border p-4">
-        <div className="mb-4">
-          <h1 className="text-2xl font-semibold">Участники</h1>
-          <p className="text-sm text-muted-foreground">
-            Управляйте ролями здесь
-          </p>
-        </div>
+      <div>
+        <h1 className="text-2xl font-semibold">Участники</h1>
+        <p className="mb-8 text-sm text-muted-foreground">
+          Управляйте ролями здесь
+        </p>
         <MembersDataTable data={project.members} columns={membersColumns} />
       </div>
     </div>

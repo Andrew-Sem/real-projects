@@ -68,7 +68,7 @@ export function RolesCombobox({
       <PopoverContent className="w-40 p-0">
         <Command>
           <CommandInput placeholder="Поиск ролей..." />
-          <CommandEmpty>No framework found.</CommandEmpty>
+          <CommandEmpty>Ролей не найдено.</CommandEmpty>
           <CommandGroup>
             {roles.map((framework) => (
               <CommandItem
