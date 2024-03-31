@@ -9,8 +9,8 @@ export default async function MembersPage({
   params: { id: string };
 }) {
   const project = await api.project.getById({ id: params.id });
+  await api.project.canEditRole({ id: params.id });
   if (!project) return <div>Не удалось найти проект</div>;
-
   return (
     <div className="flex flex-col gap-y-8">
       <div className="flex flex-col gap-y-4">

@@ -27,7 +27,8 @@ export const projectRouter = createTRPCRouter({
           code: "INTERNAL_SERVER_ERROR",
           message: "Не удалось найти пользователя",
         });
-      return await ctx.db.project.create({
+
+      const newProject = await ctx.db.project.create({
         data: {
           name: input.projectName,
           ownerId: ctx.user.id,
@@ -39,6 +40,16 @@ export const projectRouter = createTRPCRouter({
           members: true,
         },
       });
+
+      await ctx.db.projectUserPermission.create({
+        data: {
+          projectId: newProject.id,
+          userId: ctx.user.id,
+          role: "user",
+          accessLevel: "owner",
+        },
+      });
+      return newProject;
     }),
 
   getById: protectedProcedure
@@ -49,7 +60,15 @@ export const projectRouter = createTRPCRouter({
           id: input.id,
         },
         include: {
-          members: true,
+          members: {
+            include: {
+              projectUserPermissions: {
+                where: {
+                  projectId: input.id,
+                },
+              },
+            },
+          },
           backlog: {
             include: {
               tasks: {
@@ -117,6 +136,12 @@ export const projectRouter = createTRPCRouter({
   acceptInvite: protectedProcedure
     .input(z.object({ id: z.string() }))
     .mutation(async ({ ctx, input }) => {
+      await ctx.db.projectUserPermission.create({
+        data: {
+          projectId: input.id,
+          userId: ctx.user.id,
+        },
+      });
       return await ctx.db.project.update({
         where: {
           id: input.id,
@@ -129,5 +154,18 @@ export const projectRouter = createTRPCRouter({
           },
         },
       });
+    }),
+  canEditRole: protectedProcedure
+    .input(z.object({ id: z.string() }))
+    .query(async ({ ctx, input }) => {
+      const permission = await ctx.db.projectUserPermission.findFirst({
+        where: {
+          projectId: input.id,
+          userId: ctx.user.id,
+        },
+      });
+      if (permission?.role === "admin" || permission?.accessLevel === "owner")
+        return true;
+      return false;
     }),
 });
