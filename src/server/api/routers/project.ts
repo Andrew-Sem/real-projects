@@ -168,4 +168,24 @@ export const projectRouter = createTRPCRouter({
         return true;
       return false;
     }),
+  delete: protectedProcedure
+    .input(z.object({ id: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const permissions = await ctx.db.projectUserPermission.findFirst({
+        where: {
+          projectId: input.id,
+          userId: ctx.user.id,
+        },
+      });
+      if (permissions?.role !== "admin" && permissions?.accessLevel !== "owner")
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "У вас нет прав на удаление проекта",
+        });
+      return await ctx.db.project.delete({
+        where: {
+          id: input.id,
+        },
+      });
+    }),
 });

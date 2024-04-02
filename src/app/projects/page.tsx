@@ -1,5 +1,5 @@
 import { Header } from "@/components/header";
-import { ProjectCard } from "@/components/project-card";
+import { ProjectsList } from "@/components/projects-list";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { api } from "@/trpc/server";
@@ -22,23 +22,7 @@ export default async function ProjectsPage() {
             Создать проект
           </Link>
         </div>
-        {projects.length ? (
-          <div className="grid grid-cols-3 gap-4">
-            {projects.map((project) => (
-              <ProjectCard project={project} key={project.id} />
-            ))}
-          </div>
-        ) : (
-          <div>
-            <div>Здесь пока пусто</div>
-            <Link
-              href={"/projects/create"}
-              className={cn("grow sm:grow-0", buttonVariants())}
-            >
-              Создать проект
-            </Link>
-          </div>
-        )}
+        <ProjectsList initialProjects={projects} />
       </main>
     </>
   );
