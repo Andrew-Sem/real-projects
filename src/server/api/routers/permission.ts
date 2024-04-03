@@ -24,4 +24,18 @@ export const permissionRouter = createTRPCRouter({
         },
       });
     }),
+  getPermissionByProject: protectedProcedure
+    .input(
+      z.object({
+        projectId: z.string(),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      return await ctx.db.projectUserPermission.findFirst({
+        where: {
+          userId: ctx.user.id,
+          projectId: input.projectId,
+        },
+      });
+    }),
 });

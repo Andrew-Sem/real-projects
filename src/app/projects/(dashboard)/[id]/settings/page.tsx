@@ -8,12 +8,21 @@ export default async function ProjectSettingsPage({
 }) {
   const project = await api.project.getById({ id: params.id });
   if (!project) return <div>Не удалось найти проект</div>;
+  const permission = await api.permission.getPermissionByProject({
+    projectId: project.id,
+  });
+
+  console.log(permission);
+
   return (
     <div>
-      <DangerSettingsSections
-        projectName={project.name}
-        projectId={project.id}
-      />
+      {(permission?.accessLevel === "owner" ||
+        permission?.role === "admin") && (
+        <DangerSettingsSections
+          projectName={project.name}
+          projectId={project.id}
+        />
+      )}
     </div>
   );
 }

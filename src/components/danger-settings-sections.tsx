@@ -5,6 +5,7 @@ import { DialogClose } from "@/components/ui/dialog";
 import { api } from "@/trpc/react";
 import { Spinner } from "./ui/spinner";
 import { useRouter } from "next/navigation";
+import { useToast } from "./ui/use-toast";
 
 export const DangerSettingsSections = ({
   projectName,
@@ -13,12 +14,20 @@ export const DangerSettingsSections = ({
   projectName: string;
   projectId: string;
 }) => {
+  const { toast } = useToast();
   const router = useRouter();
   const utils = api.useUtils();
   const { mutate: deleteProject, isPending } = api.project.delete.useMutation({
     async onSuccess() {
       await utils.project.getAllByUser.refetch();
       router.push("/projects");
+    },
+    onError(error) {
+      toast({
+        title: "Ошибка при удалении проекта",
+        description: error.message,
+        variant: "destructive",
+      });
     },
   });
   const deleteProjectHandler = () => {

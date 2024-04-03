@@ -1,3 +1,4 @@
+"use client";
 import { type Project } from "@prisma/client";
 import { ProjectCard } from "./project-card";
 import { api } from "@/trpc/react";
