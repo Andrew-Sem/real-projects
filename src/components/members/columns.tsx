@@ -5,6 +5,8 @@ import { type ColumnDef } from "@tanstack/react-table";
 import Image from "next/image";
 import { RolesCombobox } from "./roles-combobox";
 import { api } from "@/trpc/react";
+import { StarIcon } from "@heroicons/react/24/solid";
+// import { StarIcon } from "@heroicons/react/16/solid/StarIcon";
 
 export const membersColumns: ColumnDef<
   User & { projectUserPermissions: ProjectUserPermission[] }
@@ -14,6 +16,8 @@ export const membersColumns: ColumnDef<
     header: "Участник",
     cell: ({ row }) => {
       const member = row.original;
+      const isOwner =
+        row.original.projectUserPermissions[0]?.accessLevel === "owner";
       return (
         <div className="flex items-center gap-x-4">
           <Image
@@ -24,7 +28,12 @@ export const membersColumns: ColumnDef<
             className="rounded-full"
           />
           <div>
-            <div>{member.firstName}</div>
+            <div className="flex gap-x-1">
+              <span>{member.firstName}</span>
+              {isOwner && (
+                <StarIcon className="h-3 w-3 text-accent-foreground" />
+              )}
+            </div>
             <div className="text-sm text-muted-foreground">{member.email}</div>
           </div>
         </div>

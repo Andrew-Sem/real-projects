@@ -12,8 +12,6 @@ export default async function ProjectSettingsPage({
     projectId: project.id,
   });
 
-  console.log(permission);
-
   return (
     <div>
       {(permission?.accessLevel === "owner" ||
