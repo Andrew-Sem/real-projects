@@ -14,7 +14,7 @@ export default async function ProjectsPage() {
       <Header userImage={user?.imageUrl} />
       <main className="container">
         <div className="flex items-center justify-between">
-          <h1 className="py-10 text-2xl font-semibold">Ваши проекты</h1>
+          <h1 className="py-10 text-3xl font-semibold">Ваши проекты</h1>
           <Link
             href={"/projects/create"}
             className={cn("grow sm:grow-0", buttonVariants())}

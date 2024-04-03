@@ -84,7 +84,13 @@ export const projectRouter = createTRPCRouter({
   getAllByUser: protectedProcedure.query(async ({ ctx }) => {
     const dbUser = await ctx.db.user.findFirst({
       where: { id: ctx.user.id },
-      include: { projects: true },
+      include: {
+        projects: {
+          include: {
+            members: true,
+          },
+        },
+      },
     });
     if (!dbUser)
       throw new TRPCError({
