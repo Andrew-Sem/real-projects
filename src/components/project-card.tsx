@@ -27,16 +27,17 @@ export const ProjectCard = ({ project }: { project: ProjectWithMembers }) => {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="flex -space-x-1">
+          <div className="flex -space-x-2">
             {project.members.slice(0, 4).map((member) => (
-              <Image
-                src={member.image}
-                alt={member.firstName ?? ""}
-                height={32}
-                width={32}
-                key={member.id}
-                className="rounded-full"
-              />
+              <div key={member.id} className="rounded-full bg-muted p-1">
+                <Image
+                  src={member.image}
+                  alt={member.firstName ?? ""}
+                  height={32}
+                  width={32}
+                  className="rounded-full "
+                />
+              </div>
             ))}
           </div>
         </CardContent>
