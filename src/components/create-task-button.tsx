@@ -11,7 +11,7 @@ import { CreateTaskForm } from "./create-task-form";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 
-export const CreateTaskButton = ({ backlogId }: { backlogId: string }) => {
+export const CreateTaskButton = ({ projectId }: { projectId: string }) => {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
@@ -26,7 +26,7 @@ export const CreateTaskButton = ({ backlogId }: { backlogId: string }) => {
           </SheetDescription>
         </SheetHeader>
         <CreateTaskForm
-          backlogId={backlogId}
+          projectId={projectId}
           closeSheet={() => setIsOpen(false)}
         />
       </SheetContent>

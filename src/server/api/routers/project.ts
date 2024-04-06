@@ -16,7 +16,6 @@ export const projectRouter = createTRPCRouter({
           code: "BAD_REQUEST",
           message: "Проект с таким именем уже существует",
         });
-      const backlog = await ctx.db.backlog.create({ data: {} });
       const dbUser = await ctx.db.user.findFirst({
         where: {
           id: ctx.user.id,
@@ -32,7 +31,6 @@ export const projectRouter = createTRPCRouter({
         data: {
           name: input.projectName,
           ownerId: ctx.user.id,
-          backlog: { connect: { id: backlog.id } },
           members: { connect: [dbUser] },
           inviteLinkId: generateRandomId(20),
         },
@@ -69,16 +67,12 @@ export const projectRouter = createTRPCRouter({
               },
             },
           },
-          backlog: {
+          tasks: {
+            orderBy: {
+              createdAt: "desc",
+            },
             include: {
-              tasks: {
-                orderBy: {
-                  createdAt: "desc",
-                },
-                include: {
-                  assignee: true,
-                },
-              },
+              assignee: true,
             },
           },
         },

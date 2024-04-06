@@ -6,31 +6,27 @@ export const taskRouter = createTRPCRouter({
     .input(
       z.object({
         sprintId: z.string().optional(),
-        backlogId: z.string().optional(),
         name: z.string(),
         description: z.string().optional(),
         due: z.date().optional(),
+        projectId: z.string(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
       const task = await ctx.db.task.create({
         data: {
-          name: input.name,
-          description: input.description,
           userId: ctx.user.id,
-          sprintId: input.sprintId,
-          backlogId: input.backlogId,
-          due: input.due,
+          ...input,
         },
       });
       return task;
     }),
-  getAllByBacklogId: protectedProcedure
-    .input(z.object({ backlogId: z.string() }))
+  getAllByProjectId: protectedProcedure
+    .input(z.object({ projectId: z.string() }))
     .query(async ({ ctx, input }) => {
       return await ctx.db.task.findMany({
         where: {
-          backlogId: input.backlogId,
+          projectId: input.projectId,
         },
         orderBy: {
           createdAt: "desc",

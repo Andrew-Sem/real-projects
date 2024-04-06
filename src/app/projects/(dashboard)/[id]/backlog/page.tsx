@@ -22,16 +22,19 @@ export default async function BacklogPage({
           <TabsTrigger value="sprint">Спринт</TabsTrigger>
         </TabsList>
         <TabsContent value="backlog">
+          <div>
+            <CreateTaskButton projectId={project.id} />
+          </div>
           <BacklogTasksList
-            initialTasks={project.backlog.tasks}
-            backlogId={project.backlogId}
+            initialTasks={project.tasks}
+            projectId={project.id}
           />
         </TabsContent>
         <TabsContent value="sprint" className="mt-4 flex flex-col space-y-4">
           <div>
-            <CreateTaskButton backlogId={project.backlogId} />
+            <CreateTaskButton projectId={project.id} />
           </div>
-          <DataTable columns={columns} data={project.backlog.tasks} />
+          <DataTable columns={columns} data={project.tasks} />
         </TabsContent>
       </Tabs>
     </div>

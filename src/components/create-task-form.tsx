@@ -39,18 +39,18 @@ const formSchema = z.object({
 });
 
 export const CreateTaskForm = ({
-  backlogId,
   closeSheet,
+  projectId,
 }: {
-  backlogId: string;
   closeSheet: () => void;
+  projectId: string;
 }) => {
   const utils = api.useUtils();
   const { toast } = useToast();
   const { mutate: createTask, isPending } = api.task.create.useMutation({
     onSuccess: async () => {
-      await utils.task.getAllByBacklogId.refetch({
-        backlogId,
+      await utils.task.getAllByProjectId.refetch({
+        projectId,
       });
       closeSheet();
     },
@@ -72,7 +72,7 @@ export const CreateTaskForm = ({
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    createTask({ ...values, backlogId });
+    createTask({ ...values, projectId });
   }
   return (
     <Form {...form}>

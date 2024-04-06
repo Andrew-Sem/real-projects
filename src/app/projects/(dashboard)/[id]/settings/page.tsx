@@ -1,4 +1,5 @@
-import { DangerSettingsSections } from "@/components/danger-settings-sections";
+import { DangerSettingsSection } from "@/components/settings/danger-settings-section";
+import { TemplateSettingsSection } from "@/components/settings/template/template-settings-section";
 import { api } from "@/trpc/server";
 
 export default async function ProjectSettingsPage({
@@ -13,10 +14,11 @@ export default async function ProjectSettingsPage({
   });
 
   return (
-    <div>
+    <div className="flex flex-col gap-y-8">
+      <TemplateSettingsSection projectId={project.id} />
       {(permission?.accessLevel === "owner" ||
         permission?.role === "admin") && (
-        <DangerSettingsSections
+        <DangerSettingsSection
           projectName={project.name}
           projectId={project.id}
         />

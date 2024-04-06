@@ -3,11 +3,11 @@ import { ConfirmDialog } from "@/components/confirm-dialog";
 import { Button } from "@/components/ui/button";
 import { DialogClose } from "@/components/ui/dialog";
 import { api } from "@/trpc/react";
-import { Spinner } from "./ui/spinner";
+import { Spinner } from "../ui/spinner";
 import { useRouter } from "next/navigation";
-import { useToast } from "./ui/use-toast";
+import { useToast } from "../ui/use-toast";
 
-export const DangerSettingsSections = ({
+export const DangerSettingsSection = ({
   projectName,
   projectId,
 }: {

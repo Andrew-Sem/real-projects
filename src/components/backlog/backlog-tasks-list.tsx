@@ -3,19 +3,18 @@
 import { type Task } from "@prisma/client";
 import { BacklogTask } from "./backlog-task";
 import { api } from "@/trpc/react";
-import { CreateTaskButton } from "../create-task-button";
 import { ScrollArea } from "../ui/scroll-area";
 import { Input } from "../ui/input";
 
 export const BacklogTasksList = ({
   initialTasks,
-  backlogId,
+  projectId,
 }: {
   initialTasks: Task[];
-  backlogId: string;
+  projectId: string;
 }) => {
-  const { data: tasks } = api.task.getAllByBacklogId.useQuery(
-    { backlogId },
+  const { data: tasks } = api.task.getAllByProjectId.useQuery(
+    { projectId },
     { initialData: initialTasks },
   );
   return (
@@ -28,7 +27,6 @@ export const BacklogTasksList = ({
           </p>
         </div>
         <Input className="w-96" placeholder="Поиск задач" />
-        <CreateTaskButton backlogId={backlogId} />
       </div>
       {tasks.length ? (
         <ScrollArea className="max-h-96">
