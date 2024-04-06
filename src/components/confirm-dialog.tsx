@@ -26,7 +26,6 @@ export const ConfirmDialog = ({
       <DialogContent>
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
-
           {description && <DialogDescription>{description}</DialogDescription>}
         </DialogHeader>
         {actions && <DialogFooter className="mt-4">{actions}</DialogFooter>}

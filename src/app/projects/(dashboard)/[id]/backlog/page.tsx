@@ -16,7 +16,7 @@ export default async function BacklogPage({
   if (!project) throw new TRPCClientError("Unable to get project");
   return (
     <div className="flex w-full flex-col gap-y-4">
-      <Tabs defaultValue="backlog">
+      <Tabs defaultValue="sprint">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="backlog">Бэклог</TabsTrigger>
           <TabsTrigger value="sprint">Спринт</TabsTrigger>

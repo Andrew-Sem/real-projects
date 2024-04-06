@@ -5,16 +5,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import dayjs from "dayjs";
-import relativeTime from "dayjs/plugin/relativeTime";
+import { dayjs } from "@/lib/dayjs";
+
 import Link from "next/link";
 
-import "dayjs/locale/ru";
 import { type ProjectWithMembers } from "./projects-list";
-import Image from "next/image";
-
-dayjs.extend(relativeTime);
-dayjs.locale("ru");
+import { MembersPreview } from "./members/members-preview";
 
 export const ProjectCard = ({ project }: { project: ProjectWithMembers }) => {
   return (
@@ -27,19 +23,7 @@ export const ProjectCard = ({ project }: { project: ProjectWithMembers }) => {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="flex -space-x-2">
-            {project.members.slice(0, 4).map((member) => (
-              <div key={member.id} className="rounded-full bg-muted p-1">
-                <Image
-                  src={member.image}
-                  alt={member.firstName ?? ""}
-                  height={32}
-                  width={32}
-                  className="rounded-full "
-                />
-              </div>
-            ))}
-          </div>
+          <MembersPreview members={project.members} />
         </CardContent>
       </Card>
     </Link>
