@@ -17,7 +17,9 @@ export const ProjectCard = ({ project }: { project: ProjectWithMembers }) => {
     <Link href={`/projects/${project.id}/dashboard`}>
       <Card className="duration-150 hover:bg-muted/50">
         <CardHeader>
-          <CardTitle>{project.name}</CardTitle>
+          <CardTitle className=" truncate text-balance">
+            {project.name}
+          </CardTitle>
           <CardDescription>
             Обновлён {dayjs(project.updatedAt).fromNow()}
           </CardDescription>

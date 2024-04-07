@@ -32,13 +32,13 @@ export const Sidebar = ({
 }) => {
   return (
     <div className="relative flex min-h-full flex-col gap-4 overflow-y-auto border-r lg:w-[280px]">
-      <h4 className="flex items-center justify-between px-4 pt-3 text-xl font-medium">
-        {project.name}
+      <h4 className="flex items-center justify-between  px-4 pt-3 text-xl font-medium">
+        <span className="truncate">{project.name}</span>
         <DropdownMenu>
           <DropdownMenuTrigger className="p-1">
             <ChevronUpDownIcon className="h-5 w-5 text-muted-foreground " />
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="min-w-[200px]">
+          <DropdownMenuContent className="min-w-40 max-w-56">
             <DropdownMenuLabel>Недавние проекты</DropdownMenuLabel>
             <DropdownMenuSeparator />
             {latestProjects.map((latestProject) => (
