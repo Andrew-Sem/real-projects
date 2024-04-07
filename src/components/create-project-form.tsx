@@ -18,11 +18,31 @@ import { useRouter } from "next/navigation";
 import { Spinner } from "@/components/ui/spinner";
 import { useToast } from "./ui/use-toast";
 import { useState } from "react";
-const formSchema = z.object({
-  projectName: z.string().min(2).max(50),
-});
+import { type Template } from "@prisma/client";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
-export const CreateProjectForm = () => {
+export const CreateProjectForm = ({
+  availableTemplates,
+}: {
+  availableTemplates: Template[];
+}) => {
+  const formSchema = z.object({
+    projectName: z.string().min(2).max(50),
+    templateId: z
+      .enum(
+        availableTemplates.map((template) => template.id) as [
+          string,
+          ...string[],
+        ],
+      )
+      .optional(),
+  });
   const [isRedirecting, setIsRedirecting] = useState(false);
   const { toast } = useToast();
   const router = useRouter();
@@ -62,6 +82,30 @@ export const CreateProjectForm = () => {
               <FormControl>
                 <Input placeholder="Введите название проекта" {...field} />
               </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="templateId"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Шаблон</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger className="w-60">
+                    <SelectValue placeholder="Выберите шаблон" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent className="w-60">
+                  {availableTemplates.map((template) => (
+                    <SelectItem key={template.id} value={template.id}>
+                      {template.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
               <FormMessage />
             </FormItem>
           )}

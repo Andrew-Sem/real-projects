@@ -59,9 +59,7 @@ export function RolesCombobox({
           aria-expanded={open}
           className="w-40 justify-between"
         >
-          {value
-            ? roles.find((framework) => framework.value === value)?.label
-            : "user"}
+          {value ? roles.find((role) => role.value === value)?.label : "user"}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
@@ -70,10 +68,10 @@ export function RolesCombobox({
           <CommandInput placeholder="Поиск ролей..." />
           <CommandEmpty>Ролей не найдено.</CommandEmpty>
           <CommandGroup>
-            {roles.map((framework) => (
+            {roles.map((role) => (
               <CommandItem
-                key={framework.value}
-                value={framework.value}
+                key={role.value}
+                value={role.value}
                 onSelect={(currentValue) => {
                   const currentRole = currentValue as Role;
                   updateRole({ projectId, userId, role: currentRole });
@@ -84,10 +82,10 @@ export function RolesCombobox({
                 <Check
                   className={cn(
                     "mr-2 h-4 w-4",
-                    value === framework.value ? "opacity-100" : "opacity-0",
+                    value === role.value ? "opacity-100" : "opacity-0",
                   )}
                 />
-                {framework.label}
+                {role.label}
               </CommandItem>
             ))}
           </CommandGroup>

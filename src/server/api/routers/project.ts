@@ -6,7 +6,9 @@ import { generateRandomId } from "@/utils/generateRandomId";
 
 export const projectRouter = createTRPCRouter({
   create: protectedProcedure
-    .input(z.object({ projectName: z.string() }))
+    .input(
+      z.object({ projectName: z.string(), templateId: z.string().optional() }),
+    )
     .mutation(async ({ input, ctx }) => {
       const project = await ctx.db.project.findFirst({
         where: { name: input.projectName, ownerId: ctx.user.id },
@@ -38,6 +40,35 @@ export const projectRouter = createTRPCRouter({
           members: true,
         },
       });
+
+      if (input.templateId) {
+        const template = await ctx.db.template.findFirst({
+          where: {
+            id: input.templateId,
+          },
+          include: {
+            tasks: {
+              select: {
+                name: true,
+                description: true,
+              },
+            },
+          },
+        });
+        if (!template)
+          throw new TRPCError({
+            code: "NOT_FOUND",
+            message: "Не удалось найти шаблон",
+          });
+        const templateTasks = template.tasks.map((task) => ({
+          ...task,
+          userId: ctx.user.id,
+          projectId: newProject.id,
+        }));
+        await ctx.db.task.createMany({
+          data: templateTasks,
+        });
+      }
 
       await ctx.db.projectUserPermission.create({
         data: {
