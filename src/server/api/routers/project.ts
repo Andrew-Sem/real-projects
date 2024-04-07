@@ -65,9 +65,14 @@ export const projectRouter = createTRPCRouter({
           userId: ctx.user.id,
           projectId: newProject.id,
         }));
-        await ctx.db.task.createMany({
+        const newTasks = await ctx.db.task.createMany({
           data: templateTasks,
         });
+        if (!newTasks)
+          throw new TRPCError({
+            code: "INTERNAL_SERVER_ERROR",
+            message: "Не удалось создать задачи из шаблона",
+          });
       }
 
       await ctx.db.projectUserPermission.create({
